@@ -17,9 +17,12 @@ Component({
   },
 
   lifetimes: {
-    ready: function () {
+    attached: function () {
+      this._dead = false;
       this._yaw = 0.62;
       this._pitch = 0.42;
+    },
+    ready: function () {
       this._cursor = 0;
       this._moves = [];
       this._state = cube.createSolved();
@@ -27,10 +30,23 @@ Component({
       this._anim = null;
       this._initGl(0);
     },
+    // 页面 onUnload 会拆掉组件，走到这里。停掉帧循环和初始化重试，并删掉 GPU 资源。
     detached: function () {
+      this._dead = true;
       this._anim = null;
       this._playing = false;
+      if (this._initTimer) {
+        clearTimeout(this._initTimer);
+        this._initTimer = 0;
+      }
       this._stopRaf();
+      this._releaseGl();
+    }
+  },
+
+  pageLifetimes: {
+    show: function () {
+      if (!this._dead && this._renderer) this._draw();
     }
   },
 
@@ -44,10 +60,14 @@ Component({
     _initGl: function (attempt) {
       var self = this;
       this.createSelectorQuery().select('#cube-gl').fields({ node: true, size: true }).exec(function (res) {
+        if (self._dead) return;
         var info = res && res[0];
         if (!info || !info.node || !info.width || !info.height) {
           if (attempt < 12) {
-            setTimeout(function () { self._initGl(attempt + 1); }, 40);
+            self._initTimer = setTimeout(function () {
+              self._initTimer = 0;
+              if (!self._dead) self._initGl(attempt + 1);
+            }, 40);
           } else {
             self._fail('画布还没准备好');
           }
@@ -88,13 +108,25 @@ Component({
       });
     },
 
+    _releaseGl: function () {
+      var renderer = this._renderer;
+      this._renderer = null;
+      this._glReady = false;
+      this._canvas = null;
+      if (renderer && renderer.dispose) {
+        try { renderer.dispose(); } catch (e) {}
+      }
+    },
+
     _fail: function (msg) {
+      if (this._dead) return;
       this._error = msg;
       this.setData({ error: msg });
       this._emit();
     },
 
     _loadCase: function () {
+      if (this._dead) return;
       this._anim = null;
       this._playing = false;
       this._stopRaf();
@@ -122,6 +154,7 @@ Component({
     },
 
     _emit: function () {
+      if (this._dead) return;
       this.triggerEvent('status', {
         cursor: this._cursor || 0,
         total: this._moves ? this._moves.length : 0,
@@ -153,14 +186,18 @@ Component({
     },
 
     _draw: function () {
-      if (!this._renderer || !this._state) return;
+      if (this._dead || !this._renderer || !this._state) return;
       var spin = null;
       if (this._anim) {
         var p = (Date.now() - this._anim.t0) / this._anim.dur;
         if (p < 0) p = 0;
         if (p > 1) p = 1;
         var e = p * p * (3 - 2 * p);
-        spin = { axis: this._anim.axis, layers: this._anim.layers, theta: this._anim.angle * e };
+        if (!this._spinView) this._spinView = { axis: 0, layers: null, theta: 0 };
+        spin = this._spinView;
+        spin.axis = this._anim.axis;
+        spin.layers = this._anim.layers;
+        spin.theta = this._anim.angle * e;
       }
       this._renderer.draw(this._state, this._yaw, this._pitch, spin, this._viewW, this._viewH);
     },
@@ -170,6 +207,7 @@ Component({
       if (this._rafId || !this._anim) return;
       var tick = function () {
         self._rafId = 0;
+        if (self._dead) return;
         if (!self._anim) {
           self._draw();
           return;
@@ -178,7 +216,7 @@ Component({
         if (Date.now() - self._anim.t0 >= self._anim.dur) {
           var done = self._anim.done;
           self._anim = null;
-          if (done) done();
+          if (done && !self._dead) done();
           return;
         }
         self._rafId = self._requestFrame(tick);
@@ -273,29 +311,36 @@ Component({
       this._loadCase();
     },
 
-    _touchPoint: function (touch) {
+    _readTouch: function (touch, out) {
       var x = touch.clientX;
       var y = touch.clientY;
       if (x == null) x = touch.x;
       if (y == null) y = touch.y;
-      return { x: x, y: y };
+      out.x = x;
+      out.y = y;
+      return out;
     },
 
     onTouchStart: function (e) {
       var t = e.touches && e.touches[0];
       if (!t) return;
-      this._drag = this._touchPoint(t);
+      if (!this._drag) this._drag = { x: 0, y: 0 };
+      this._readTouch(t, this._drag);
     },
 
     onTouchMove: function (e) {
       var t = e.touches && e.touches[0];
       if (!t || !this._drag) return;
-      var p = this._touchPoint(t);
-      var dx = p.x - this._drag.x;
-      var dy = p.y - this._drag.y;
-      this._drag = p;
+      if (!this._pt) this._pt = { x: 0, y: 0 };
+      this._readTouch(t, this._pt);
+      var dx = this._pt.x - this._drag.x;
+      var dy = this._pt.y - this._drag.y;
+      this._drag.x = this._pt.x;
+      this._drag.y = this._pt.y;
       this._yaw -= dx * 0.012;
       this._pitch -= dy * 0.012;
+      var turn = Math.PI * 2;
+      if (this._yaw > turn || this._yaw < -turn) this._yaw = this._yaw % turn;
       if (this._pitch > 1.25) this._pitch = 1.25;
       if (this._pitch < -1.15) this._pitch = -1.15;
       this._draw();
