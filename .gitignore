@@ -2,3 +2,5 @@ node_modules/
 project.private.config.json
 .DS_Store
 .miniprogram/
+__pycache__/
+*.pyc
