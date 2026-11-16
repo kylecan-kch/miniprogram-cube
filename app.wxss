@@ -1,0 +1,1 @@
+/* 魔方样式都在各页面自己的 wxss 和 packageCube/styles/ui.wxss 里，类名统一 cube- 前缀。这里不写全局样式。 */

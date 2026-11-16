@@ -1,0 +1,52 @@
+.cube-page {
+  min-height: 100vh;
+  box-sizing: border-box;
+  background: #f1f5f9;
+  color: #0f172a;
+  font-size: 28rpx;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+  line-height: 1.5;
+  padding: 48rpx 0;
+}
+
+.cube-card {
+  background: #ffffff;
+  border-radius: 20rpx;
+  margin: 24rpx;
+  padding: 28rpx;
+  box-shadow: 0 2rpx 8rpx rgba(15, 23, 42, 0.05);
+}
+
+.cube-h1 {
+  font-size: 40rpx;
+  font-weight: 700;
+  margin-bottom: 8rpx;
+}
+
+.cube-muted {
+  color: #64748b;
+  font-size: 24rpx;
+}
+
+.cube-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 72rpx;
+  padding: 0 28rpx;
+  margin: 16rpx 16rpx 0 0;
+  border-radius: 14rpx;
+  width: auto !important;
+  min-width: 0;
+  font-weight: 500;
+  font-size: 26rpx;
+  background: #2563eb;
+  color: #ffffff;
+  line-height: 72rpx;
+}
+
+.cube-btn::after { border: none; }
+
+.cube-btn[disabled] { opacity: 0.45; }
+
+.cube-btn-hover { opacity: 0.85; }
