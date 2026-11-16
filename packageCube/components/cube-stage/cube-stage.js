@@ -79,7 +79,7 @@ Component({
           antialias: false,
           depth: true,
           stencil: false,
-          preserveDrawingBuffer: false
+          preserveDrawingBuffer: true
         });
         if (!gl) {
           self._fail('当前设备不支持 WebGL');

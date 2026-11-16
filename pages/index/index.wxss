@@ -47,4 +47,6 @@
 
 .cube-btn::after { border: none; }
 
+.cube-btn[disabled] { opacity: 0.45; }
+
 .cube-btn-hover { opacity: 0.85; }
