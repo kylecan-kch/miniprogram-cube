@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "version": "1.0.0",
+  "type": "commonjs",
+  "description": "声明本目录为 CommonJS，使 node --test 能运行 tests/*.test.js。微信小程序运行时不依赖此文件。",
+  "scripts": {
+    "test": "node --test tests/*.test.js"
+  }
+}

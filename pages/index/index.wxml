@@ -1,0 +1,8 @@
+<view class="cube-page">
+  <view class="cube-card">
+    <view class="cube-h1">魔方教学</view>
+    <view class="cube-muted">正在打开课程…</view>
+    <view class="cube-muted" wx:if="{{failed}}">分包没有打开。请确认基础库不低于 2.32.3，然后重试。</view>
+    <button class="cube-btn" hover-class="cube-btn-hover" bindtap="go">进入魔方教学</button>
+  </view>
+</view>

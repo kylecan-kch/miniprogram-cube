@@ -1,0 +1,61 @@
+<view class="cube-page">
+  <view class="cube-card" wx:if="{{missing}}">
+    <view class="cube-card-title">找不到这节课</view>
+    <button class="cube-btn" hover-class="cube-btn-hover" bindtap="goHome">返回首页</button>
+  </view>
+
+  <block wx:else>
+    <view class="cube-card">
+      <view class="cube-muted">{{title}}</view>
+      <view class="cube-row">
+        <view class="cube-badge">第 {{stepIndex + 1}} / {{stepCount}} 步</view>
+        <view class="cube-solved" wx:if="{{hasAlg && solved && !busy && cursor === moveCount}}">这一步做完了</view>
+      </view>
+      <view class="cube-case" wx:if="{{caseName}}">{{caseName}}</view>
+      <view class="cube-text">{{text}}</view>
+      <view class="cube-tips" wx:if="{{tips.length}}">
+        <view class="cube-tip" wx:for="{{tips}}" wx:for-index="ti" wx:key="ti">
+          <text class="cube-tip-dot">·</text>
+          <text class="cube-tip-text">{{item}}</text>
+        </view>
+      </view>
+    </view>
+
+    <cube-stage
+      id="stage"
+      algorithm="{{algorithm}}"
+      setup="{{setup}}"
+      reset-key="{{stepIndex}}"
+      bindstatus="onStatus"
+    />
+
+    <view class="cube-progress" wx:if="{{hasAlg}}">
+      公式 {{cursor}}/{{moveCount}}
+      <text class="cube-solved" wx:if="{{solved && !busy && cursor === moveCount}}">已还原</text>
+    </view>
+    <view class="cube-raw" wx:if="{{rawShown}}">原式 {{rawAlg}}</view>
+    <view class="cube-alg" wx:if="{{hasAlg}}">
+      <text wx:for="{{tokens}}" wx:key="i" class="{{item.cls}}">{{item.text}}</text>
+    </view>
+    <view class="cube-note" wx:if="{{!hasAlg}}">这一步没有公式，看讲解即可。魔方保持复原。</view>
+    <view class="cube-error" wx:if="{{playError}}">{{playError}}</view>
+
+    <view class="cube-controls">
+      <button class="cube-btn cube-btn-primary" hover-class="cube-btn-hover" bindtap="onToggle" disabled="{{!hasAlg}}">{{playing ? '暂停' : '播放'}}</button>
+      <button class="cube-btn" hover-class="cube-btn-hover" bindtap="onBack" disabled="{{!hasAlg || busy || cursor === 0}}">后退</button>
+      <button class="cube-btn" hover-class="cube-btn-hover" bindtap="onForward" disabled="{{!hasAlg || busy || cursor >= moveCount}}">前进</button>
+      <button class="cube-btn cube-btn-plain" hover-class="cube-btn-hover" bindtap="onReset" disabled="{{!hasAlg || busy}}">重置</button>
+    </view>
+
+    <view class="cube-controls">
+      <button class="cube-btn cube-btn-plain" hover-class="cube-btn-hover" bindtap="prevStep" disabled="{{stepIndex === 0}}">上一讲</button>
+      <button class="cube-btn cube-btn-plain" hover-class="cube-btn-hover" bindtap="nextStep" disabled="{{stepIndex >= stepCount - 1}}">下一讲</button>
+      <button class="cube-btn cube-btn-plain" hover-class="cube-btn-hover" bindtap="openNotation">记号说明</button>
+    </view>
+
+    <view class="cube-card" wx:if="{{goal}}">
+      <view class="cube-muted">本课目标</view>
+      <view>{{goal}}</view>
+    </view>
+  </block>
+</view>

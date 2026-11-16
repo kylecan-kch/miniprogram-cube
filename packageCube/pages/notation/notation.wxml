@@ -1,0 +1,51 @@
+<view class="cube-page">
+  <view class="cube-card">
+    <view class="cube-h1">拿法与颜色</view>
+    <view class="cube-text">白色中心朝下（D），黄色中心朝上（U），拼的时候不要翻过来。白对黄，红对橙，蓝对绿。</view>
+    <view class="cube-muted cube-net">演示用的朝向：前绿、后蓝、右红、左橙。</view>
+    <view class="cube-net">
+      <view class="cube-net-row">
+        <view class="cube-net-gap"></view>
+        <view class="cube-face cube-face-u">黄 U</view>
+      </view>
+      <view class="cube-net-row">
+        <view class="cube-face cube-face-l">橙 L</view>
+        <view class="cube-face cube-face-f">绿 F</view>
+        <view class="cube-face cube-face-r">红 R</view>
+        <view class="cube-face cube-face-b">蓝 B</view>
+      </view>
+      <view class="cube-net-row">
+        <view class="cube-net-gap"></view>
+        <view class="cube-face cube-face-d">白 D</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="cube-card">
+    <view class="cube-card-title">基本转动</view>
+    <view class="cube-text">正对着要转的那一面看，顺时针 90° 写一个字母，逆时针加撇，180° 加 2。</view>
+    <view class="cube-tip"><text class="cube-k">R</text><text class="cube-tip-text">右面顺时针。从前面看，是把右面往上推。</text></view>
+    <view class="cube-tip"><text class="cube-k">R'</text><text class="cube-tip-text">右面逆时针。往下（朝自己）拉。</text></view>
+    <view class="cube-tip"><text class="cube-k">R2</text><text class="cube-tip-text">右面转半圈。R2' 和 R2 一样。</text></view>
+    <view class="cube-tip"><text class="cube-k">U / U'</text><text class="cube-tip-text">顶面。U 时前面那排转到左边。</text></view>
+    <view class="cube-tip"><text class="cube-k">F</text><text class="cube-tip-text">前面顺时针，像方向盘往右打。</text></view>
+    <view class="cube-tip"><text class="cube-k">L</text><text class="cube-tip-text">左面顺时针。从前面看是往下拉，和 R 镜像。</text></view>
+    <view class="cube-tip"><text class="cube-k">D</text><text class="cube-tip-text">底面顺时针。从前面看，底边往右走。</text></view>
+    <view class="cube-tip"><text class="cube-k">B</text><text class="cube-tip-text">后面顺时针（人站到魔方后面看）。</text></view>
+  </view>
+
+  <view class="cube-card">
+    <view class="cube-card-title">宽层、中层、整体</view>
+    <view class="cube-tip"><text class="cube-k">r l u d f b</text><text class="cube-tip-text">小写是宽层：这一面连同旁边的中层一起转，方向和对应大写相同。Rw、Lw、Uw、Dw、Fw、Bw 是同一种写法。</text></view>
+    <view class="cube-tip"><text class="cube-k">M</text><text class="cube-tip-text">左右之间的中层，方向同 L（从前面看往下）。M'、M2 也常用。</text></view>
+    <view class="cube-tip"><text class="cube-k">E</text><text class="cube-tip-text">上下之间的中层，方向同 D。</text></view>
+    <view class="cube-tip"><text class="cube-k">S</text><text class="cube-tip-text">前后之间的中层，方向同 F。</text></view>
+    <view class="cube-tip"><text class="cube-k">x y z</text><text class="cube-tip-text">整个魔方转动，方向分别同 R、U、F。转完以后，前后左右的叫法跟着新的朝向走。</text></view>
+  </view>
+
+  <view class="cube-card">
+    <view class="cube-card-title">怎么读一条公式</view>
+    <view class="cube-text">从左往右一步一步做。括号表示一组，后面的数字是重复次数，例如 (R U R' U')6 就是这一组做 6 遍。</view>
+    <view class="cube-muted">课程里的每一步：先把复原的魔方按 setup 打乱（没写 setup 就用公式的逆），再播放 algorithm。</view>
+  </view>
+</view>

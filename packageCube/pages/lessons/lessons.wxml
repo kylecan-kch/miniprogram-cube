@@ -1,0 +1,27 @@
+<view class="cube-page">
+  <view class="cube-card" wx:if="{{missing}}">
+    <view class="cube-card-title">没有这条轨道</view>
+    <button class="cube-btn" hover-class="cube-btn-hover" bindtap="goHome">返回首页</button>
+  </view>
+
+  <block wx:else>
+    <view class="cube-card">
+      <view class="cube-h1">{{title}}</view>
+      <view class="cube-muted">{{lessons.length}} 课，点进去看步骤和 3D 演示。</view>
+    </view>
+    <view
+      class="cube-card cube-track"
+      wx:for="{{lessons}}"
+      wx:key="id"
+      data-id="{{item.id}}"
+      bindtap="openLesson"
+    >
+      <view class="cube-track-main">
+        <view class="cube-card-title">{{item.title}}</view>
+        <view class="cube-muted">{{item.goal}}</view>
+        <view class="cube-muted">{{item.steps}} 步</view>
+      </view>
+      <view class="cube-track-arrow">›</view>
+    </view>
+  </block>
+</view>

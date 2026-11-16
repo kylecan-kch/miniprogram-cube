@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "课程",
+  "navigationBarBackgroundColor": "#2563eb",
+  "navigationBarTextStyle": "white",
+  "backgroundColor": "#f1f5f9",
+  "usingComponents": {
+    "cube-stage": "../../components/cube-stage/cube-stage"
+  }
+}

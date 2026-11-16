@@ -1,0 +1,37 @@
+<view class="cube-page">
+  <view class="cube-card">
+    <view class="cube-h1">魔方教学</view>
+    <view class="cube-muted">三阶层先法入门，以及 CFOP 进阶。白底黄顶，公式可以逐步播放。</view>
+  </view>
+
+  <view class="cube-card" wx:if="{{last}}">
+    <view class="cube-muted">上次看到</view>
+    <view class="cube-card-title">{{last.title}}</view>
+    <button class="cube-btn cube-btn-primary" hover-class="cube-btn-hover" bindtap="resume">继续学习</button>
+  </view>
+
+  <view
+    class="cube-card cube-track"
+    wx:for="{{tracks}}"
+    wx:key="id"
+    data-id="{{item.id}}"
+    bindtap="openTrack"
+  >
+    <view class="cube-track-main">
+      <view class="cube-card-title">{{item.title}}</view>
+      <view class="cube-muted">{{item.count}} 课</view>
+    </view>
+    <view class="cube-track-arrow">›</view>
+  </view>
+
+  <view class="cube-card" wx:if="{{tracks.length === 0}}">
+    <view class="cube-card-title">还没有课程</view>
+    <view class="cube-muted">请检查 packageCube/data/lessons.json</view>
+  </view>
+
+  <view class="cube-card">
+    <view class="cube-card-title">记号</view>
+    <view class="cube-muted">R U R' 这些字母、宽层和中层怎么转。</view>
+    <button class="cube-btn" hover-class="cube-btn-hover" bindtap="openNotation">查看记号说明</button>
+  </view>
+</view>

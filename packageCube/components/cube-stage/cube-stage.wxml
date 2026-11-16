@@ -1,0 +1,13 @@
+<view class="cube-stage">
+  <canvas
+    type="webgl"
+    id="cube-gl"
+    class="cube-canvas"
+    bindtouchstart="onTouchStart"
+    catchtouchmove="onTouchMove"
+    bindtouchend="onTouchEnd"
+    bindtouchcancel="onTouchEnd"
+  ></canvas>
+  <view class="cube-stage-mask" wx:if="{{error}}">{{error}}</view>
+  <view class="cube-stage-hint" wx:else>拖动可旋转视角</view>
+</view>
