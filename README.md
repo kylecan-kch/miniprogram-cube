@@ -14,6 +14,8 @@
 4. 后端服务选「不使用云服务」，导入。
 5. 调试基础库选 **2.32.3** 或更高（详情 → 本地设置 → 调试基础库）。`canvas type="webgl"` 需要基础库 ≥ 2.7.0。
 
+用开发者工具「导入项目」选仓库根目录（含 `project.config.json` 的那一层），AppID 用测试号或 `touristappid`。这是普通小程序：`compileType` 为 `miniprogram`，`projectArchitecture` 为 `miniProgram`。如果导入时报 `project.config.json: ["pluginRoot"] 不能为空`，删除本地的 `project.private.config.json` 后重新导入，并确保不是以插件模式导入。
+
 不需要 `npm install`，也不需要「构建 npm」。
 
 ## 二、目录结构
